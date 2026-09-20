@@ -1,4 +1,4 @@
-apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb-deployment
@@ -11,3 +11,17 @@ spec:
       app: mongodb
   template:
     metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value:
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: 
+
