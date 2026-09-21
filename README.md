@@ -56,7 +56,7 @@ kubectl get svc
 
 ## Credentials
 
-The default credentials in [mongo-secret.yaml](mongo-secret.yaml) decode to `root` / `root` (base64 for `root` is `cm9vdA==`). Replace these with your own base64-encoded values before using this outside of local/testing environments:
+The default credentials in [mongo-secret.yaml](mongo-secret.yaml) decode to `root` / `root`. Replace these with your own base64-encoded values before using this outside of local/testing environments:
 
 ```bash
 echo -n 'your-username' | base64
