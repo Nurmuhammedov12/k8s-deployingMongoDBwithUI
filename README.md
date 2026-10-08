@@ -1,6 +1,3 @@
-# Deploying MongoDB with UI on Kubernetes
-
-Kubernetes manifests for running MongoDB alongside [mongo-express](https://github.com/mongo-express/mongo-express) (a web-based MongoDB admin UI), wired together with a Secret, a ConfigMap, and Services.
 
 ## Components
 
