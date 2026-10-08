@@ -19,4 +19,17 @@ spec:
             image: eclipse-mosquitto:2.0
             ports:
               - containerPort: 1883
+            volumes:
+              - name: mosquitto-config
+                mountPath: /mosquitto/config
+              - name: mosquitto-secrets
+                mountPath: /mosquitto/config
+                readOnly: true
+        volumes:
+          - name: mosquitto-config
+            configMap:
+              name: mosquitto-config-file
+          - name: mosquitto-secrets
+            secret:
+              secretName: mosquitto-secret-file
 
