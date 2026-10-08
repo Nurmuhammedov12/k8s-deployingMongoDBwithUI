@@ -1,81 +1,43 @@
-##### Install minikube
+##### Print full docker login command for aws ecr
 
-```
-brew update
-brew install minikube
-kubectl
-minikube
-```
+`aws ecr get-login-password`
 
-##### Create minikube cluster
+##### Login to docker private repo
 
-```
-minikube start
-kubectl get nodes
-minikube status
-kubectl version
-```
+`docker login -u username -p password`
 
-##### Delete cluster and restart in debug mode
-```
-minikube delete
-minikube start --alsologtostderr
-minikube status
-```
+##### Base64 encode config file
 
-##### Kubectl commands
+`cat .docker/config.json | base64`
 
+##### Create docker login secret from config.json file
+
+```sh
+kubectl create secret generic my-registry-key \
+--from-file=.dockerconfigjson=.docker/config.json \
+--type=kubernetes.io/dockerconfigjson
 ```
-kubectl get nodes
-kubectl get pod
-kubectl get services
-kubectl create deployment nginx-depl --image=nginx
-kubectl get deployment
-kubectl get replicaset
-kubectl edit deployment nginx-depl
+`kubectl create secret generic my-registry-key --from-file=.dockerconfigjson=.docker/config.json --type=kubernetes.io/dockerconfigjson`
+
+###### Access generated secret
+
+`kubectl get secret`
+
+##### Create docker login secret with login credentials
+
+```sh
+kubectl create secret docker-registry my-registry-key \
+--docker-server=https://private-repo \
+--docker-username=user \
+--docker-password=pwd 
 ```
 
-##### Debugging
+`kubectl create secret docker-registry my-registry-key --docker-server=https://private-repo --docker-username=user --docker-password=pwd`
 
-```
-kubectl logs "INSERT POD NAME"
-kubectl exec -it "INSERT POD NAME" -- bin/bash
-```
+##### Access minikube console
 
-##### Create mongo deployment
+`minikube ssh`
 
-```
-kubectl create deployment mongo-depl --image=mongo
-kubectl logs mongo-depl-"INSERT POD NAME"
-kubectl describe pod mongo-depl-"INSERT POD NAME"
-```
+##### Copy config.json file from Minikube to my host
 
-##### Delete deplyoment
-
-```
-kubectl delete deployment mongo-depl
-kubectl delete deployment nginx-depl
-```
-
-##### Create or edit config file
-
-```
-vim nginx-deployment.yaml
-kubectl apply -f nginx-deployment.yaml
-kubectl get pod
-kubectl get deployment
-```
-
-##### Delete with config
-
-```
-kubectl delete -f nginx-deployment.yaml
-```
-
-##### Metrics
-
-```
-kubectl top
-``` 
-
-The kubectl top command returns current CPU and memory usage for a cluster’s pods or nodes, or for a particular pod or node if specified.
+`minikube cp minikube:/home/docker/.docker/config.json /users/USERNAME/.docker/config.json`
